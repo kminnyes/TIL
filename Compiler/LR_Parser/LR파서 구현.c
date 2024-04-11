@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #define MAX 100
 
-void LR_Parser(char* input); // LR_Parser ÇÔ¼ö ¼±¾ğ
+void LR_Parser(char* input); // LR_Parser í•¨ìˆ˜ ì„ ì–¸
 
 int action_tbl[12][6] = {
     { 5, 0, 0, 4, 0, 0 },
@@ -41,26 +41,26 @@ char token[] = { 'd', '+', '*', '(', ')', '$' };
 char NT[] = { ' ', 'E', 'T', 'F' }; // non-terminals: dummy in 0 index
 int stack[MAX], sp;
 
-int is_empty() {// ½ºÅÃÀÌ ºñ¾úÀ» ¶§
+int is_empty() {// ìŠ¤íƒì´ ë¹„ì—ˆì„ ë•Œ
     return sp == -1;
 }
 
-int is_full() {// ½ºÅÃÀÌ °¡µæÃ¡À» ¶§
+int is_full() {// ìŠ¤íƒì´ ê°€ë“ì°¼ì„ ë•Œ
     return (sp >= MAX - 1);
 }
 
-void push(int input) {// push(shift)ÇÔ¼ö ±¸Çö
+void push(int input) {// push(shift)í•¨ìˆ˜ êµ¬í˜„
     if (is_full()) {
-        printf("½ºÅÃÀÌ °¡µæ Ã¡½À´Ï´Ù.");
+        printf("ìŠ¤íƒì´ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤.");
     }
     else {
         stack[++sp] = input;
     }
 }
 
-void pop() {//pop(reduce)ÇÔ¼ö ±¸Çö
+void pop() {//pop(reduce)í•¨ìˆ˜ êµ¬í˜„
     if (is_empty()) {
-        printf("½ºÅÃÀÌ ºñ¾ú½À´Ï´Ù.");
+        printf("ìŠ¤íƒì´ ë¹„ì—ˆìŠµë‹ˆë‹¤.");
     }
     else {
         return stack[sp--];
@@ -79,13 +79,13 @@ int main() {
     return 0; 
 }
 
-void LR_Parser(char* input) { //LRÆÄ¼­ ±¸Çö
-    sp = -1; //½ºÅÃ Æ÷ÀÎÅÍ ÃÊ±âÈ­
+void LR_Parser(char* input) { //LRíŒŒì„œ êµ¬í˜„
+    sp = -1; //ìŠ¤íƒ í¬ì¸í„° ì´ˆê¸°í™”
     int i = 0;
-    int state = 0;//»óÅÂ º¯¼ö
+    int state = 0;//ìƒíƒœ ë³€ìˆ˜
     int j = 1;
-    push(state); // ½ºÅÃ¿¡ 0 »ğÀÔ
-    printf("\n(%d) initial :", j); // ÃÊ±â »óÅÂ Ãâ·Â
+    push(state); // ìŠ¤íƒì— 0 ì‚½ì…
+    printf("\n(%d) initial :", j); // ì´ˆê¸° ìƒíƒœ ì¶œë ¥
     for (int k = 0; k < sp + 1; k++) {
         printf(" %d ", stack[k]);
     }
@@ -97,7 +97,7 @@ void LR_Parser(char* input) { //LRÆÄ¼­ ±¸Çö
 
         printf("\n(%d)", j+1);
 
-        // ÅäÅ« ºĞ¸®, Á¤ÇØÁø ÅäÅ«À» Á¦¿ÜÇÑ ÅäÅ« »ğÀÔ½Ã ¿¡·¯¸Ş¼¼Áö Ãâ·Â ÈÄ Á¾·á
+        // í† í° ë¶„ë¦¬, ì •í•´ì§„ í† í°ì„ ì œì™¸í•œ í† í° ì‚½ì…ì‹œ ì—ëŸ¬ë©”ì„¸ì§€ ì¶œë ¥ í›„ ì¢…ë£Œ
         int action_index = 0;
         if (lookahead == 'd')
             action_index = 0;
@@ -116,19 +116,19 @@ void LR_Parser(char* input) { //LRÆÄ¼­ ±¸Çö
             break;
         }
 
-        // actionÅ×ÀÌºí¿¡¼­ actionÃ£±â
+        // actioní…Œì´ë¸”ì—ì„œ actionì°¾ê¸°
         int action = action_tbl[state][action_index];
 
-        //actionÀÌ ¾ç¼öÀÏ ¶§, shift µ¿ÀÛ ¼öÇà
+        //actionì´ ì–‘ìˆ˜ì¼ ë•Œ, shift ë™ì‘ ìˆ˜í–‰
         if (action > 0 && action != 999) {
-            state = action; // ÇöÀç »óÅÂ º¯¼ö·Î ¼³Á¤
-            push(input[i]); // ÅäÅ« »ğÀÔ
-            push(state); // ÇöÀçÀÇ »óÅÂ°ª »ğÀÔ
+            state = action; // í˜„ì¬ ìƒíƒœ ë³€ìˆ˜ë¡œ ì„¤ì •
+            push(input[i]); // í† í° ì‚½ì…
+            push(state); // í˜„ì¬ì˜ ìƒíƒœê°’ ì‚½ì…
             printf(" Shift %d:", action);
             i++;
             j++;
             printf(" ");
-            for (int k = 0; k <= sp; k++) { // ½ºÅÃ Ãâ·Â
+            for (int k = 0; k <= sp; k++) { // ìŠ¤íƒ ì¶œë ¥
                 if (stack[k] >= 32 && stack[k] <= 126) {
                     printf("%c", stack[k]);
                 }
@@ -137,21 +137,21 @@ void LR_Parser(char* input) { //LRÆÄ¼­ ±¸Çö
                 }
             }
             printf("   ");
-            printf("%s", &input[i]); // inputÃâ·Â
+            printf("%s", &input[i]); // inputì¶œë ¥
         }
 
-        //actionÀÌ À½¼öÀÏ ¶§, Reduce µ¿ÀÛ ¼öÇà
+        //actionì´ ìŒìˆ˜ì¼ ë•Œ, Reduce ë™ì‘ ìˆ˜í–‰
         else if (action < 0) {
-            int rule_num = abs(action); //actionÀÇ Àı´ë°ª
-            int len; // ±æÀÌ º¯¼ö
+            int rule_num = abs(action); //actionì˜ ì ˆëŒ€ê°’
+            int len; // ê¸¸ì´ ë³€ìˆ˜
             len = rhs_len[rule_num];
             printf(" Reduce %d:", rule_num);
-            for (int j = 0; j < 2 * len; j++) {//±æÀÌÀÇ 2¹è¸¦ popÇÔ
+            for (int j = 0; j < 2 * len; j++) {//ê¸¸ì´ì˜ 2ë°°ë¥¼ popí•¨
                 pop();
             }
-            char spell = lhs[rule_num];//E, T, F ±¸º°
+            char spell = lhs[rule_num];//E, T, F êµ¬ë³„
 
-            int goto_index;//E, T, F¸¦ ±¸º°ÇÏ°í ÀÎµ¦½º¸¦ ºÎ¿©
+            int goto_index;//E, T, Fë¥¼ êµ¬ë³„í•˜ê³  ì¸ë±ìŠ¤ë¥¼ ë¶€ì—¬
             if (spell == ' ')
                 goto_index = 0;
             else if (spell == 'E')
@@ -162,14 +162,14 @@ void LR_Parser(char* input) { //LRÆÄ¼­ ±¸Çö
                 goto_index = 3;
 
             state = goto_tbl[stack[sp]][goto_index]; 
-            //ÇöÀç ½ºÅÃÆ÷ÀÎÅÍ¿Í À§¿¡¼­ ±¸º°ÇÑ ÀÎµ¦½º·Î gotoÅ×ÀÌºíÀÇ »óÅÂ¸¦ ±¸ÇÔ
+            //í˜„ì¬ ìŠ¤íƒí¬ì¸í„°ì™€ ìœ„ì—ì„œ êµ¬ë³„í•œ ì¸ë±ìŠ¤ë¡œ gotoí…Œì´ë¸”ì˜ ìƒíƒœë¥¼ êµ¬í•¨
 
             push(spell);
             push(state);
             j++;
 
             printf(" ");
-            for (int k = 0; k <= sp; k++) {//½ºÅÃ Ãâ·Â
+            for (int k = 0; k <= sp; k++) {//ìŠ¤íƒ ì¶œë ¥
                 if (stack[k] >= 32 && stack[k] <= 126) {
                     printf("%c", stack[k]);
                 }
@@ -178,9 +178,9 @@ void LR_Parser(char* input) { //LRÆÄ¼­ ±¸Çö
                 }
             }
             printf("   ");
-            printf("%s", &input[i]);//input Ãâ·Â
+            printf("%s", &input[i]);//input ì¶œë ¥
         }
-        else if (action == 999) {//999ÀÏ¶§ accept
+        else if (action == 999) {//999ì¼ë•Œ accept
             printf("accept\n");
             break;
         }
