@@ -6,7 +6,8 @@ length()와 length는 모두 길이를 알고자할 때 사용한다.
 length는 배열의 길이를 알고자할 때 사용된다.
 
 - 예시
-```//length
+```
+		//length
 		int [] arr = new int[5];
 		System.out.println(arr.length); //5
 
